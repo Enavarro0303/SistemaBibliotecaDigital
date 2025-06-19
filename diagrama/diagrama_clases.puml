@@ -1,0 +1,54 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+skinparam classHeaderColor #ADD8E6
+skinparam classBorderColor #2E86C1
+
+abstract class Publicacion {
+    # titulo: String
+    # autor: String
+    # anio: int
+    + Publicacion(String, String, int)
+    + getTitulo(): String
+    + getAutor(): String
+}
+
+class Libro extends Publicacion {
+    - paginas: int
+    - palabrasEstimadas: int
+    + Libro(String, String, int, int)
+    + calcularPalabrasEstimadas(): int
+}
+
+class Revista extends Publicacion {
+    + Revista(String, String, int)
+}
+
+class Usuario {
+    - nombre: String
+    - favoritos: List<Publicacion>
+    + Usuario(String)
+    + marcarComoFavorito(Publicacion): void
+    + marcarComoFavorito(List<Publicacion>): void
+}
+
+class Biblioteca {
+    - catalogo: List<Publicacion>
+    - usuarios: List<Usuario>
+    + agregarPublicacion(Publicacion): void
+    + registrarUsuario(Usuario): void
+}
+
+' Relaciones entre clases
+Biblioteca "1" o-- "0..*" Publicacion : contiene
+Biblioteca "1" o-- "0..*" Usuario : gestiona
+Usuario "1" -- "0..*" Publicacion : marca como favorito
+
+' Clase anidada (se muestra con una relación de composición)
+class EstadisticaBiblioteca <<static>> {
+    + calcularPromedioPalabras(List<Publicacion>): double
+    + contarFavoritos(List<Usuario>): int
+}
+Biblioteca +-- EstadisticaBiblioteca
+
+@enduml
