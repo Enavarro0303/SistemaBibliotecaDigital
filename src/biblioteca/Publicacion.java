@@ -16,6 +16,7 @@ public abstract class Publicacion {
         this.codigoISBN = codigoISBN;
     }
 
+    // Getters estándar
     public String getTitulo() {
         return titulo;
     }
@@ -32,5 +33,9 @@ public abstract class Publicacion {
         return codigoISBN;
     }
 
+    /**
+     * Define un contrato para que todas las subclases deban implementar
+     * una forma de mostrar su información.
+     */
     public abstract String getInfo();
 }

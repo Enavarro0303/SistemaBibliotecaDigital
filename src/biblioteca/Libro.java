@@ -8,9 +8,13 @@ public class Libro extends Publicacion {
         super(titulo, autor, anio, codigoISBN);
     }
 
+    /**
+     * Calcula un número de palabras estimado para el libro.
+     * @return un número entero de palabras.
+     */
     public int calcularPalabrasEstimadas() {
         Random rand = new Random();
-        int palabrasPorPagina = 100 + rand.nextInt(201); // 100 a 300
+        int palabrasPorPagina = 250 + rand.nextInt(101); // 250 a 350
         int totalPaginas = 100 + rand.nextInt(401); // 100 a 500
         return palabrasPorPagina * totalPaginas;
     }

@@ -2,10 +2,11 @@ package biblioteca;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Usuario {
     private String nombre;
-    private List<Libro> favoritos;
+    private List<Publicacion> favoritos; // MEJORA: Ahora es de tipo Publicacion
 
     public Usuario(String nombre) {
         this.nombre = nombre;
@@ -16,36 +17,36 @@ public class Usuario {
         return nombre;
     }
 
-    public void marcarComoFavorito(Libro libro) {
-        if (!favoritos.contains(libro)) {
-            favoritos.add(libro);
-            System.out.println("Libro marcado como favorito: " + libro.getTitulo());
+    // MEJORA: Acepta cualquier Publicacion
+    public void marcarComoFavorito(Publicacion publicacion) {
+        if (!favoritos.contains(publicacion)) {
+            favoritos.add(publicacion);
+            System.out.println("⭐ Publicación '" + publicacion.getTitulo() + "' marcada como favorita.");
         } else {
-            System.out.println("El libro ya está en favoritos.");
+            System.out.println("La publicación '" + publicacion.getTitulo() + "' ya está en favoritos.");
         }
     }
 
-    public List<Libro> getFavoritos() {
-        return favoritos;
+    public List<Publicacion> getFavoritos() {
+        // Devuelve una copia para proteger la lista original
+        return new ArrayList<>(favoritos);
     }
 
-    public List<Libro> buscarPorTitulo(List<Libro> libros, String titulo) {
-        List<Libro> resultado = new ArrayList<>();
-        for (Libro libro : libros) {
-            if (libro.getTitulo().toLowerCase().contains(titulo.toLowerCase())) {
-                resultado.add(libro);
-            }
-        }
-        return resultado;
+    // MEJORA: Búsqueda inteligente con Streams que recibe el catálogo completo
+    public List<Libro> buscarLibroPorTitulo(List<Publicacion> catalogo, String titulo) {
+        return catalogo.stream()
+                .filter(pub -> pub instanceof Libro)
+                .map(pub -> (Libro) pub)
+                .filter(libro -> libro.getTitulo().toLowerCase().contains(titulo.toLowerCase()))
+                .collect(Collectors.toList());
     }
 
-    public List<Libro> buscarPorAutor(List<Libro> libros, String autor) {
-        List<Libro> resultado = new ArrayList<>();
-        for (Libro libro : libros) {
-            if (libro.getAutor().toLowerCase().contains(autor.toLowerCase())) {
-                resultado.add(libro);
-            }
-        }
-        return resultado;
+    // MEJORA: Búsqueda inteligente con Streams que recibe el catálogo completo
+    public List<Libro> buscarLibroPorAutor(List<Publicacion> catalogo, String autor) {
+        return catalogo.stream()
+                .filter(pub -> pub instanceof Libro)
+                .map(pub -> (Libro) pub)
+                .filter(libro -> libro.getAutor().toLowerCase().contains(autor.toLowerCase()))
+                .collect(Collectors.toList());
     }
 }
